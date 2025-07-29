@@ -1,0 +1,35 @@
+```python
+from flask import Flask, request
+from twilio.twiml.messaging_response import MessagingResponse
+from openai import OpenAI
+
+app = Flask(__name__)
+
+@app.route("/whatsapp", methods=['POST'])
+def whatsapp_reply():
+    incoming_msg = request.values.get('Body', '').strip().lower()
+    resp = MessagingResponse()
+    msg = resp.message()
+
+    # Use AI to generate response
+    response = OpenAI().chat(prompt=incoming_msg)
+    msg.body(response)
+
+    return str(resp)
+
+# Run the app locally
+if __name__ == "__main__":
+    app.run()
+```
+
+📁 *GitHub Suggestion:*
+- Repo name: *Kavii_119 BoT*
+- Structure:
+  ```
+  /bot
+    └── app.py
+    └── requirements.txt
+    └──.env (for API keys)
+  /docs
+    └── README.md
+  ```
